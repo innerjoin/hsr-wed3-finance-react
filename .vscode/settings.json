@@ -1,0 +1,4 @@
+{
+    // Install the 'vscode-flow-ide' plugin
+    "javascript.validate.enable": false
+}
