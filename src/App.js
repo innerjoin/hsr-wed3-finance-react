@@ -14,6 +14,7 @@ import Signup from './components/Signup'
 import Dashboard from './components/Dashboard'
 import AllTransactions from './components/AllTransactions'
 import PrivateRoute from './components/PrivateRoute'
+import { Menu } from 'semantic-ui-react';
 
 import * as api from './api'
 
@@ -69,19 +70,21 @@ class App extends React.Component {
         
     const MenuBar = withRouter(({ history, location: { pathname } }) => {
       if(isAuthenticated && user) {
-        return (
-          <nav>
-            <span>{user.firstname} {user.lastname} &ndash; {user.accountNr}</span>
-            {/* Links inside the App are created using the react-router's Link component */}
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Kontoübersicht</Link>
-            <Link to="/transactions">Zahlungen</Link>
-            <a href="/logout" onClick={(event) => {
-              event.preventDefault()
-              this.signout(() => history.push('/'))
-            }}>Logout {user.firstname} {user.lastname}</a>
-          </nav>
-        )
+        var logoutHandler = (event) => {
+					event.preventDefault()
+					this.signout(() => history.push('/'))
+				}
+				const items = [
+					{ key: 'home', name: 'Home', as: Link, to: "/"  },
+					{ key: 'dashboard', name: 'Kontoübersicht', as: Link, to: "/dashboard" },
+					{ key: 'transactions', name: 'Zahlungen', as: Link, to: "/transactions"},
+          { key: 'logout', name: "Logout "+user.firstname+" "+user.lastname, onClick: logoutHandler}
+				]
+
+				return (
+					<Menu items={items} />
+				)
+
       } else {
         return null
       }
