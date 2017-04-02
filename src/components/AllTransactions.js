@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Select } from 'semantic-ui-react'
+import { Grid, Segment, Select } from 'semantic-ui-react'
 
 import TransactionTable from './TransactionTable';
 import type { User } from '../api';
@@ -73,12 +73,16 @@ class AllTransactions extends React.Component {
   
   render() {
     return (
-      <div>
-        <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
-        <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
+      <Grid container column={1}>
+        <Grid.Column>
+          <Segment raised>
+            <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
+            <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-        <TransactionTable transactions={this.state.transactions} />
-      </div>
+            <TransactionTable transactions={this.state.transactions} />
+          </Segment>
+        </Grid.Column>
+      </Grid>
     )
   }
 }
