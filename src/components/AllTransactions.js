@@ -1,8 +1,9 @@
 // @flow
 
 import React from 'react';
-import { Select, Table } from 'semantic-ui-react'
+import { Select } from 'semantic-ui-react'
 
+import TransactionTable from './TransactionTable';
 import type { User } from '../api';
 import { getTransactions } from '../api';
 
@@ -75,30 +76,7 @@ class AllTransactions extends React.Component {
         <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
         <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-        <Table unstackable>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Date</Table.HeaderCell>
-              <Table.HeaderCell>Source</Table.HeaderCell>
-              <Table.HeaderCell>Target</Table.HeaderCell>
-              <Table.HeaderCell>Amount [CHF]</Table.HeaderCell>
-              <Table.HeaderCell>Balance [CHF]</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {
-            this.state.transactions.map((item, index) => 
-              <Table.Row key={index}>
-                <Table.Cell>{item.date}</Table.Cell>
-                <Table.Cell>{item.from}</Table.Cell>
-                <Table.Cell>{item.target}</Table.Cell>
-                <Table.Cell>{item.amount}</Table.Cell>
-                <Table.Cell>{item.total}</Table.Cell>
-              </Table.Row>
-            )
-            }
-          </Table.Body>
-        </Table>
+        <TransactionTable transactions={this.state.transactions} />
       </div>
     )
   }
