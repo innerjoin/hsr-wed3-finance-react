@@ -10,10 +10,15 @@ export type Props = {
 class TransactionTable extends React.Component {
 
   props: Props
+
+  formatDate(dateString) {
+    var date = new Date(dateString);
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  }
  
   render() {
     return (
-        <Table unstackable>
+        <Table unstackable striped>
             <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Date</Table.HeaderCell>
@@ -26,7 +31,7 @@ class TransactionTable extends React.Component {
             <Table.Body>
                 {this.props.transactions.map((item, index) => 
                     <Table.Row key={index}>
-                        <Table.Cell>{item.date}</Table.Cell>
+                        <Table.Cell>{this.formatDate(item.date)}</Table.Cell>
                         <Table.Cell>{item.from}</Table.Cell>
                         <Table.Cell>{item.target}</Table.Cell>
                         <Table.Cell>{item.amount}</Table.Cell>
