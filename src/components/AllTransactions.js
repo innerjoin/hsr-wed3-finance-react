@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Table } from 'semantic-ui-react'
+import { Select, Table } from 'semantic-ui-react'
 
 import type { User } from '../api';
 import { getTransactions } from '../api';
@@ -21,41 +21,60 @@ class AllTransactions extends React.Component {
     fromDate: "",
     toDate: "",
     count: 10,
-    skip: 0
+    skip: 0,
+    month: new Date().getMonth(),
+    months: [...Array(12)].map(function(_, idx) {
+      var monthText = ["Jaunary", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      return {key: idx, value: idx, text: monthText[idx]};
+    }),
+    year: new Date().getFullYear(),
+    years: Array(3).fill(new Date().getFullYear()).map(function(maxYear, idx) {
+      var year = maxYear - idx;
+      return {key: year, value: year, text: year};
+    })
   }
 
   updateTransactionData() {
     getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
       (data) => {
-        console.log("result is: ", data);
         this.setState(state => ({transactions: data.result}));
         this.setState(state => ({total: data.query.resultcount}));
       }
     );
   }
 
-  updateDateRange() {
-    var selectedYear = 2017; // TODO dynamic from UI
-    var selectedMonth = 0; // TODO dynamic from UI
+  updateDateRange(selectedYear, selectedMonth) {
     this.setState(state => ({fromDate: new Date(selectedYear, selectedMonth, 1).toJSON()}));
     if((selectedMonth + 1) % 12 !== 0) {
       this.setState(state => ({toDate: new Date(selectedYear, selectedMonth + 1, 1).toJSON()}));
     } else {
       this.setState(state => ({toDate: new Date(selectedYear + 1, 0, 1).toJSON()}));
     }
+    this.updateTransactionData();
   }
 
   componentDidMount() {
     this.props = {};
-    this.props.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InVzZXIxIiwiZmlyc3RuYW1lIjoiQm9iIiwibGFzdG5hbWUiOiJNw7xsbGVyIiwiYWNjb3VudE5yIjoiMTAwMDAwMSIsImlhdCI6MTQ5MTA0MTgwMywiZXhwIjoxNDkxMTI4MjAzLCJhdWQiOiJzZWxmIiwiaXNzIjoiYmFuayJ9.tBlqGGRCEZIvw6XR-sNT5iXIvT6xrsJ4NWMCk_O7Cts";
+    this.props.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InVzZXIxIiwiZmlyc3RuYW1lIjoiQm9iIiwibGFzdG5hbWUiOiJNw7xsbGVyIiwiYWNjb3VudE5yIjoiMTAwMDAwMSIsImlhdCI6MTQ5MTEzMjYzOSwiZXhwIjoxNDkxMjE5MDM5LCJhdWQiOiJzZWxmIiwiaXNzIjoiYmFuayJ9.yXmJS2cC-_XGMRIgSLf9pecjTnZdFVe6nYjQlEsSKcE";
     this.updateDateRange();
-    this.updateTransactionData();
+  }
+
+  updateMonth(month) {
+    this.setState(state => ({month: month}));
+    this.updateDateRange(this.state.year, month);
+  }
+
+  updateYear(year) {
+    this.setState(state => ({year: year}));
+    this.updateDateRange(year, this.state.month);
   }
   
   render() {
-    var trans = this.state.transactions;
     return (
       <div>
+        <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
+        <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
+
         <Table unstackable>
           <Table.Header>
             <Table.Row>
@@ -68,7 +87,7 @@ class AllTransactions extends React.Component {
           </Table.Header>
           <Table.Body>
             {
-            trans.map((item, index) => 
+            this.state.transactions.map((item, index) => 
               <Table.Row key={index}>
                 <Table.Cell>{item.date}</Table.Cell>
                 <Table.Cell>{item.from}</Table.Cell>
