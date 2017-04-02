@@ -2,26 +2,27 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Grid } from 'semantic-ui-react'
+import { Segment, Label, Grid, Divider } from 'semantic-ui-react'
 
 export type Props = {
   isAuthenticated: boolean,
 }
 
 const Home = ({isAuthenticated}: Props) => (
-  <Grid centered>
+  <Grid container column={1}>
     <Grid.Column>
-      <h1>Bank of Rapperswil</h1>
-      <Segment>
+      <Segment raised>
+        <Label as='a' color='priamry' ribbon>Bank of Rapperswil</Label>
         { isAuthenticated
           ? <div>
-              <p>Willkommen zurück!</p>
-              <Link className="ui button" to="/dashboard">Zum Dashboard</Link>
+              <h1>Welcome back!</h1>
+              <Link className="ui button primary fluid" to="/dashboard">View Dashboard</Link>
             </div>
           : <div>
-              <Link className="ui button" to="/login">Einloggen</Link>
-              <p>Falls Sie noch keinen Account besitzen können Sie sich hier registrieren:</p>
-              <Link className="ui button" to="/signup">Registrieren</Link>
+              <h1>Welcome to the bank of your trust</h1>
+              <Link className="ui button primary fluid" to="/login">Login</Link>
+              <Divider horizontal>Or</Divider>
+              <Link className="ui button secondary fluid" to="/signup">Sign up now</Link>
             </div>
         }
       </Segment>
