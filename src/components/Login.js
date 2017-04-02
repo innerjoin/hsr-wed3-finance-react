@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react'
+import { Button, Form, Segment, Grid } from 'semantic-ui-react'
 
 export type Props = {
   /* Callback to submit an authentication request to the server */

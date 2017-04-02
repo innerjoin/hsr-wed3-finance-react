@@ -4,7 +4,7 @@ import React from 'react'
 import { Redirect, Link } from 'react-router-dom'
 
 import { signup } from '../api'
-import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react'
+import { Button, Form, Segment, Grid } from 'semantic-ui-react'
 
 class Signup extends React.Component {
     
