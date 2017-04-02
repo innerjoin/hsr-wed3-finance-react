@@ -36,12 +36,15 @@ class AllTransactions extends React.Component {
   }
 
   updateTransactionData() {
-    getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
-      (data) => {
-        this.setState(state => ({transactions: data.result}));
-        this.setState(state => ({total: data.query.resultcount}));
-      }
-    );
+    // FIXIT: hacky stuff
+    setTimeout(() => {
+      getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
+        (data) => {
+          this.setState(state => ({transactions: data.result}));
+          this.setState(state => ({total: data.query.resultcount}));
+        }
+      );
+    }, 200);
   }
 
   updateDateRange(selectedYear, selectedMonth) {
