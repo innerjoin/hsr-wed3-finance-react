@@ -1,6 +1,8 @@
 // @flow
 
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 export type Props = {
     token: string,
 }
@@ -12,7 +14,10 @@ class LatestTransactionListContainer extends React.Component {
     render() {
 
         return (
-            <div>Latest Transaction List Container</div>
+            <div>
+                <div>Latest Transaction List Container</div>
+                <Link className="ui button primary fluid" to="/transactions">All Transactions</Link>
+            </div>
         )
     }
 }
