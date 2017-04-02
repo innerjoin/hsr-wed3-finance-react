@@ -55,8 +55,6 @@ class AllTransactions extends React.Component {
   }
 
   componentDidMount() {
-    this.props = {};
-    this.props.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InVzZXIxIiwiZmlyc3RuYW1lIjoiQm9iIiwibGFzdG5hbWUiOiJNw7xsbGVyIiwiYWNjb3VudE5yIjoiMTAwMDAwMSIsImlhdCI6MTQ5MTEzMjYzOSwiZXhwIjoxNDkxMjE5MDM5LCJhdWQiOiJzZWxmIiwiaXNzIjoiYmFuayJ9.yXmJS2cC-_XGMRIgSLf9pecjTnZdFVe6nYjQlEsSKcE";
     this.updateDateRange();
   }
 
