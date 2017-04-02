@@ -1,9 +1,10 @@
 // @flow
 
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 import { signup } from '../api'
+import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react'
 
 class Signup extends React.Component {
     
@@ -70,18 +71,24 @@ class Signup extends React.Component {
     }
     
     return (
-      <div>
-        <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Registrieren</h2>
+      <Grid centered>
+        <Grid.Column>
+          <h1>Bank of Rapperswil</h1>
+          <Segment>
+          <Form>
+            <h2>Registrieren</h2>
           <input onChange={this.handleLoginChanged} placeholder='Login' value={this.state.login} />
           <input onChange={this.handleFirstNameChanged} placeholder='Vorname' value={this.state.firstname} />
           <input onChange={this.handleLastNameChanged} placeholder='Nachname' value={this.state.lastname} />
           <input onChange={this.handlePasswordChanged} placeholder='Passwort' type="password" value={this.state.password} />
-          <button onClick={this.handleSubmit}>Account eröffnen</button>
-        </form>
-        { error && <p>Es ist ein Fehler aufgetreten!</p> }
-      </div>
+          <Button onClick={this.handleSubmit}>Account eröffnen</Button>
+          </Form>
+          </Segment>
+
+          { error && <p>Es ist ein Fehler aufgetreten!</p> }
+          <Link className="ui button" to="/login">Bereits einen Account?</Link>
+        </Grid.Column>
+      </Grid>
     )
   }
 }

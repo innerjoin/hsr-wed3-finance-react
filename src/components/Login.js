@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Redirect, Link } from 'react-router-dom'
+import { Button, Checkbox, Form, Segment, Grid } from 'semantic-ui-react'
 
 export type Props = {
   /* Callback to submit an authentication request to the server */
@@ -69,17 +70,26 @@ class Login extends React.Component {
     }
         
     return (
-      <div>
-        <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Login</h2>
-          <input onChange={this.handleLoginChanged} placeholder='Login' value={this.state.login} />
-          <input onChange={this.handlePasswordChanged} placeholder='Password' type="password" value={this.state.password} />
-          <button onClick={this.handleSubmit}>Log-in</button>
-        </form>
-        { error && <p>Es ist ein Fehler aufgetreten!</p> }
-        <Link to="/signup">Noch keinen Account?</Link>
-      </div>
+      <Grid centered>
+        <Grid.Column>
+          <h1>Bank of Rapperswil</h1>
+          <Segment>
+          <Form>
+            <h2>Login</h2>
+            <Form.Field inline>
+              <input onChange={this.handleLoginChanged} placeholder='Login' value={this.state.login} />
+            </Form.Field>
+            <Form.Field inline>
+              <input onChange={this.handlePasswordChanged} placeholder='Password' type="password" value={this.state.password} />
+            </Form.Field>
+            <Button onClick={this.handleSubmit}>Log-in</Button>
+          </Form>
+          </Segment>
+
+          { error && <p>Es ist ein Fehler aufgetreten!</p> }
+          <Link className="ui button" to="/signup">Noch keinen Account?</Link>
+        </Grid.Column>
+      </Grid>
     )
   }
 }
