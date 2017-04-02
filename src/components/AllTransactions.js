@@ -21,7 +21,7 @@ class AllTransactions extends React.Component {
     total: 0,
     fromDate: "",
     toDate: "",
-    count: 10,
+    count: 999999,
     skip: 0,
     month: new Date().getMonth(),
     months: [...Array(12)].map(function(_, idx) {
