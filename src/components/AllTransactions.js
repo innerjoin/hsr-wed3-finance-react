@@ -58,7 +58,7 @@ class AllTransactions extends React.Component {
   }
 
   componentDidMount() {
-    this.updateDateRange();
+    this.updateDateRange(this.state.year, this.state.month);
   }
 
   updateMonth(month) {
