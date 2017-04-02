@@ -71,10 +71,10 @@ class Signup extends React.Component {
     }
     
     return (
-      <Grid container column={1}>
+      <Grid container>
         <Grid.Column>
           <Segment raised>
-            <Label as='a' color='priamry' ribbon>Bank of Rapperswil</Label>
+            <Label as='a' ribbon>Bank of Rapperswil</Label>
             <Form>
               <h2>Registrieren</h2>
               <Input fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />

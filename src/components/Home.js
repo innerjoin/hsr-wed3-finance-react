@@ -9,10 +9,10 @@ export type Props = {
 }
 
 const Home = ({isAuthenticated}: Props) => (
-  <Grid container column={1}>
+  <Grid container>
     <Grid.Column>
       <Segment raised>
-        <Label as='a' color='priamry' ribbon>Bank of Rapperswil</Label>
+        <Label as='a' ribbon>Bank of Rapperswil</Label>
         { isAuthenticated
           ? <div>
               <h1>Welcome back!</h1>

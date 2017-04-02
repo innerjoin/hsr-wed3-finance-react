@@ -73,7 +73,7 @@ class AllTransactions extends React.Component {
   
   render() {
     return (
-      <Grid container column={1}>
+      <Grid container>
         <Grid.Column>
           <Segment raised>
             <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
