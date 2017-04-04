@@ -1,6 +1,6 @@
 // @flow
 
-import React, {Component} from 'react';
+import React from 'react';
 import {Header, Input, Label, Button} from 'semantic-ui-react'
 
 export type Props = {
