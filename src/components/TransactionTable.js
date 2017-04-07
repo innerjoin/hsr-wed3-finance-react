@@ -14,7 +14,7 @@ function TransactionTable({transactions, showDate = true}) {
         <Table unstackable striped>
             <Table.Header>
             <Table.Row>
-                <Table.HeaderCell>Date</Table.HeaderCell>
+                {showDate && <Table.HeaderCell>Date</Table.HeaderCell>}
                 <Table.HeaderCell>Source</Table.HeaderCell>
                 <Table.HeaderCell>Target</Table.HeaderCell>
                 <Table.HeaderCell>Amount [CHF]</Table.HeaderCell>
@@ -24,7 +24,7 @@ function TransactionTable({transactions, showDate = true}) {
             <Table.Body>
                 {transactions.map((item, index) => 
                     <Table.Row key={index}>
-                        <Table.Cell>{formatDate(item.date)}</Table.Cell>
+                        {showDate && <Table.Cell>{formatDate(item.date)}</Table.Cell>}
                         <Table.Cell>{item.from}</Table.Cell>
                         <Table.Cell>{item.target}</Table.Cell>
                         <Table.Cell>{item.amount}</Table.Cell>
