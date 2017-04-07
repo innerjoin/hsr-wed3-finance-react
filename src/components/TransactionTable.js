@@ -13,7 +13,7 @@ class TransactionTable extends React.Component {
 
   formatDate(dateString) {
     var date = new Date(dateString);
-    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    return `${date.getUTCDate()}.${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`;
   }
  
   render() {
