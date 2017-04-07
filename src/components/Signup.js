@@ -4,7 +4,9 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { signup } from '../api'
+import MyInput from './MyInput'
 import { Button, Form, Segment, Grid, Label, Input, Message } from 'semantic-ui-react'
+
 
 class Signup extends React.Component {
     
@@ -77,13 +79,13 @@ class Signup extends React.Component {
             <Label as='a' ribbon>Bank of Rapperswil</Label>
             <Form>
               <h2>Registrieren</h2>
-              <Input fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />
+              <MyInput fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />
               <br />
-              <Input fluid onChange={this.handleFirstNameChanged} label='Given Name' value={this.state.firstname} />
+              <MyInput fluid onChange={this.handleFirstNameChanged} label='Given Name' value={this.state.firstname} />
               <br />
-              <Input fluid onChange={this.handleLastNameChanged} label='Family Name' value={this.state.lastname} />
+              <MyInput fluid onChange={this.handleLastNameChanged} label='Family Name' value={this.state.lastname} />
               <br />
-              <Input fluid onChange={this.handlePasswordChanged} label='Password' type="password" value={this.state.password} />
+              <MyInput fluid onChange={this.handlePasswordChanged} label='Password' type="password" value={this.state.password} />
               <br />
               <Button className="primary fluid" onClick={this.handleSubmit}>Create Account</Button>
             </Form>
