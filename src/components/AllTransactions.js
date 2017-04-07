@@ -35,26 +35,21 @@ class AllTransactions extends React.Component {
     })
   }
 
-  updateTransactionData() {
-    // FIXIT: hacky stuff
-    setTimeout(() => {
-      getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
-        (data) => {
-          this.setState(state => ({transactions: data.result}));
-          this.setState(state => ({total: data.query.resultcount}));
-        }
-      );
-    }, 200);
+  updateTransactionData(cb) {
+    getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
+      (data) => {
+        this.setState(state => ({transactions: data.result, total: data.query.resultcount}));
+      }
+    );
   }
 
   updateDateRange(selectedYear, selectedMonth) {
-    this.setState(state => ({fromDate: new Date(selectedYear, selectedMonth, 1).toJSON()}));
-    if((selectedMonth + 1) % 12 !== 0) {
-      this.setState(state => ({toDate: new Date(selectedYear, selectedMonth + 1, 1).toJSON()}));
-    } else {
-      this.setState(state => ({toDate: new Date(selectedYear + 1, 0, 1).toJSON()}));
-    }
-    this.updateTransactionData();
+    this.setState(state => ({
+      fromDate: new Date(selectedYear, selectedMonth, 1).toJSON(),
+      toDate: (selectedMonth + 1) % 12 !== 0 
+              ? new Date(selectedYear, selectedMonth + 1, 1).toJSON() 
+              : new Date(selectedYear + 1, 0, 1).toJSON()
+    }), () => this.updateTransactionData());
   }
 
   componentDidMount() {
