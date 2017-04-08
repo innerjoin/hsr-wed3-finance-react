@@ -74,7 +74,7 @@ class AllTransactions extends React.Component {
             <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
             <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-            <TransactionTable transactions={this.state.transactions} />
+            <TransactionTable showDate transactions={this.state.transactions} />
           </Segment>
         </Grid.Column>
       </Grid>
