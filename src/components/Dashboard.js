@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Segment>
-                            <NewPaymentContainer />
+                            <NewPaymentContainer token={this.props.token} />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={10}>
