@@ -35,26 +35,21 @@ class AllTransactions extends React.Component {
     })
   }
 
-  updateTransactionData() {
-    // FIXIT: hacky stuff
-    setTimeout(() => {
-      getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
-        (data) => {
-          this.setState(state => ({transactions: data.result}));
-          this.setState(state => ({total: data.query.resultcount}));
-        }
-      );
-    }, 200);
+  updateTransactionData(cb) {
+    getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
+      (data) => {
+        this.setState(state => ({transactions: data.result, total: data.query.resultcount}));
+      }
+    );
   }
 
   updateDateRange(selectedYear, selectedMonth) {
-    this.setState(state => ({fromDate: new Date(selectedYear, selectedMonth, 1).toJSON()}));
-    if((selectedMonth + 1) % 12 !== 0) {
-      this.setState(state => ({toDate: new Date(selectedYear, selectedMonth + 1, 1).toJSON()}));
-    } else {
-      this.setState(state => ({toDate: new Date(selectedYear + 1, 0, 1).toJSON()}));
-    }
-    this.updateTransactionData();
+    this.setState(state => ({
+      fromDate: new Date(selectedYear, selectedMonth, 1).toJSON(),
+      toDate: (selectedMonth + 1) % 12 !== 0 
+              ? new Date(selectedYear, selectedMonth + 1, 1).toJSON() 
+              : new Date(selectedYear + 1, 0, 1).toJSON()
+    }), () => this.updateTransactionData());
   }
 
   componentDidMount() {
@@ -79,7 +74,7 @@ class AllTransactions extends React.Component {
             <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
             <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-            <TransactionTable transactions={this.state.transactions} />
+            <TransactionTable showDate transactions={this.state.transactions} />
           </Segment>
         </Grid.Column>
       </Grid>

@@ -26,7 +26,6 @@ class Dashboard extends React.Component {
     props: Props
 
     render() {
-
         return (
             <Grid container columns={2}>
                 <Grid.Row>
@@ -37,7 +36,7 @@ class Dashboard extends React.Component {
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment>
-                            <LatestTransactionListContainer />
+                            <LatestTransactionListContainer token={this.props.token} />
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
