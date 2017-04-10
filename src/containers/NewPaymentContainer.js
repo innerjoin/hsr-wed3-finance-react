@@ -31,7 +31,7 @@ class NewPaymentContainer extends React.Component {
             toAccount: '',
             toAccountLabel: '',
             toAccountError: false,
-            transferAmount: 0,
+            transferAmount: '',
             transferStatus: '',
             transferStatusError: false,
         };
@@ -76,7 +76,10 @@ class NewPaymentContainer extends React.Component {
                 transferAmount: '',
                 transferStatus: 'Transfer successful',
                 transferStatusError: false,
-            })}).catch(p1 => {
+            });
+            //TODO: reload the transactions
+            setTimeout(() => {location.reload()},2000);
+        }).catch(p1 => {
                 this.setState({
                     transferStatus: 'Transfer failed',
                     transferStatusError: true,
