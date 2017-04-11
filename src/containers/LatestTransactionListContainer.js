@@ -8,7 +8,7 @@ import { getTransactions } from '../api';
 import moment from 'moment';
 
 export type Props = {
-    token: string,
+    token: String,
 }
 
 class LatestTransactionListContainer extends React.Component {

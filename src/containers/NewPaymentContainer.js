@@ -6,6 +6,7 @@ import { getAccountDetails, getAccount, transfer, AccountNr } from '../api';
 
 export type Props = {
     token: string,
+    handleReloadTransactions: Function,
 }
 
 class NewPaymentContainer extends React.Component {
@@ -39,7 +40,12 @@ class NewPaymentContainer extends React.Component {
     }
 
     componentDidMount() {
+        this.handleRefreshAccountDetails();
+    }
+
+    handleRefreshAccountDetails = () => {
         getAccountDetails(this.props.token).then(p1 => this.setState({fromAccount: p1.accountNr, fromAccountAmount: p1.amount})).catch();
+
     }
 
     handleToChanged = (event: Event) => {
@@ -49,6 +55,7 @@ class NewPaymentContainer extends React.Component {
                 getAccount(event.target.value, this.props.token).then(p1 => {
                     this.setState({toAccountError: false, toAccount: p1.accountNr, toAccountLabel: p1.owner.firstname + ' ' + p1.owner.lastname})
                 }).catch(p1 => {
+                    //TODO: try to supress the 404 errors
                     this.setState({toAccountLabel: 'Account number does not exist', toAccountError: true})
                 })
             } else {
@@ -77,8 +84,8 @@ class NewPaymentContainer extends React.Component {
                 transferStatus: 'Transfer successful',
                 transferStatusError: false,
             });
-            //TODO: reload the transactions
-            setTimeout(() => {location.reload()},2000);
+            this.props.handleReloadTransactions();
+            this.handleRefreshAccountDetails();
         }).catch(p1 => {
                 this.setState({
                     transferStatus: 'Transfer failed',
