@@ -55,6 +55,7 @@ class NewPaymentContainer extends React.Component {
                 getAccount(event.target.value, this.props.token).then(p1 => {
                     this.setState({toAccountError: false, toAccount: p1.accountNr, toAccountLabel: p1.owner.firstname + ' ' + p1.owner.lastname})
                 }).catch(p1 => {
+                    //TODO: try to supress the 404 errors
                     this.setState({toAccountLabel: 'Account number does not exist', toAccountError: true})
                 })
             } else {
