@@ -6,6 +6,7 @@ import { Grid, Segment, Select } from 'semantic-ui-react'
 import TransactionTable from './TransactionTable';
 import type { User } from '../api';
 import { getTransactions } from '../api';
+import moment from 'moment';
 
 export type Props = {
   token: string,
@@ -65,6 +66,10 @@ class AllTransactions extends React.Component {
     this.setState(state => ({year: year}));
     this.updateDateRange(year, this.state.month);
   }
+
+  formatDate(dateString) {
+    return moment(dateString).format("DD.MM.YYYY hh:mm");
+  }
   
   render() {
     return (
@@ -74,7 +79,7 @@ class AllTransactions extends React.Component {
             <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
             <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-            <TransactionTable showDate transactions={this.state.transactions} />
+            <TransactionTable formatDate={this.formatDate} transactions={this.state.transactions} />
           </Segment>
         </Grid.Column>
       </Grid>
