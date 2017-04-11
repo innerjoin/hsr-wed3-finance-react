@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
 import TransactionTable from '../components/TransactionTable';
 import { getTransactions } from '../api';
+import moment from 'moment';
 
 export type Props = {
     token: string,
@@ -32,12 +33,16 @@ class LatestTransactionListContainer extends React.Component {
         this.updateTransactionData();
     }
 
+    formatDate(dateString) {
+        return moment(dateString).fromNow();
+    }
+
     render() {
 
         return (
             <div>
                 <Header as='h1'>Latest Transaction</Header>
-                <TransactionTable showDate={false} transactions={this.state.transactions} />
+                <TransactionTable formatDate={this.formatDate} transactions={this.state.transactions} />
                 <Link className="ui button primary fluid" to="/transactions">All Transactions</Link>
             </div>
         )
