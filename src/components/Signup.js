@@ -4,6 +4,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 
 import { signup } from '../api'
+import { Button, Form, Segment, Grid, Label, Input, Message } from 'semantic-ui-react'
 
 class Signup extends React.Component {
     
@@ -70,18 +71,32 @@ class Signup extends React.Component {
     }
     
     return (
-      <div>
-        <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Registrieren</h2>
-          <input onChange={this.handleLoginChanged} placeholder='Login' value={this.state.login} />
-          <input onChange={this.handleFirstNameChanged} placeholder='Vorname' value={this.state.firstname} />
-          <input onChange={this.handleLastNameChanged} placeholder='Nachname' value={this.state.lastname} />
-          <input onChange={this.handlePasswordChanged} placeholder='Passwort' type="password" value={this.state.password} />
-          <button onClick={this.handleSubmit}>Account eröffnen</button>
-        </form>
-        { error && <p>Es ist ein Fehler aufgetreten!</p> }
-      </div>
+      <Grid container>
+        <Grid.Column>
+          <Segment raised>
+            <Label as='a' ribbon>Bank of Rapperswil</Label>
+            <Form>
+              <h2>Registrieren</h2>
+              <Input fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />
+              <br />
+              <Input fluid onChange={this.handleFirstNameChanged} label='Given Name' value={this.state.firstname} />
+              <br />
+              <Input fluid onChange={this.handleLastNameChanged} label='Family Name' value={this.state.lastname} />
+              <br />
+              <Input fluid onChange={this.handlePasswordChanged} label='Password' type="password" value={this.state.password} />
+              <br />
+              <Button className="primary fluid" onClick={this.handleSubmit}>Create Account</Button>
+            </Form>
+
+            <br />
+            { error && <Message attached='bottom' error>Es ist ein Fehler aufgetreten!</Message> }
+          </Segment>
+
+          <Message attached='bottom' warning>
+            Already registered?&nbsp;<a href='/login'>Login here</a>&nbsp;instead.
+          </Message>
+        </Grid.Column>
+      </Grid>
     )
   }
 }

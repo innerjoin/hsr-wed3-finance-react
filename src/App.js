@@ -76,8 +76,8 @@ class App extends React.Component {
 				}
 				const items = [
 					{ key: 'home', name: 'Home', as: Link, to: "/"  },
-					{ key: 'dashboard', name: 'Kontoübersicht', as: Link, to: "/dashboard" },
-					{ key: 'transactions', name: 'Zahlungen', as: Link, to: "/transactions"},
+					{ key: 'dashboard', name: 'Account Overview', as: Link, to: "/dashboard" },
+					{ key: 'transactions', name: 'Transactions', as: Link, to: "/transactions"},
           { key: 'logout', name: "Logout "+user.firstname+" "+user.lastname, onClick: logoutHandler}
 				]
 

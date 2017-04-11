@@ -1,14 +1,14 @@
 // @flow
 
-import React, {Component} from 'react';
-import {getTransactions} from '../api'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Header } from 'semantic-ui-react';
+import TransactionTable from '../components/TransactionTable';
+import { getTransactions } from '../api';
+import moment from 'moment';
 
 export type Props = {
-    token: string,
-    fromDate: string,
-    toDate: string,
-    count: number,
-    skip: number,
+    token: String,
 }
 
 
@@ -16,14 +16,27 @@ class LatestTransactionListContainer extends React.Component {
 
     props: Props
 
-    // state = {
-    //     token: "test",
-    //     fromDate: "2017-01-01",
-    //     toDate: "2017-12-31",
-    //     count: "3",
-    //     skip: "0",
-    //     error: null
-    // }
+    state = {
+        transactions:[],
+    }
+
+    updateTransactionData() {
+        var now = new Date();
+        var priorYear = new Date(now.getUTCFullYear() - 1, now.getUTCMonth());
+        getTransactions(this.props.token, priorYear, now, 3, 0).then(
+            (data) => {
+                this.setState(state => ({transactions: data.result}));
+            }
+        );
+    }
+
+    componentDidMount() {
+        this.updateTransactionData();
+    }
+
+    formatDate(dateString) {
+        return moment(dateString).fromNow();
+    }
 
     render() {
         // const {token, fromDate, toDate, count, skip} = this.state
@@ -34,8 +47,11 @@ class LatestTransactionListContainer extends React.Component {
         //     this.setState({error})
         // )
         return (
-            //getTransactions()
-            <div>Latest Transaction List Container</div>
+            <div>
+                <Header as='h1'>Latest Transaction</Header>
+                <TransactionTable formatDate={this.formatDate} transactions={this.state.transactions} />
+                <Link className="ui button primary fluid" to="/transactions">All Transactions</Link>
+            </div>
         )
     }
 }

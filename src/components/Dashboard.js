@@ -25,19 +25,23 @@ class Dashboard extends React.Component {
 
     props: Props
 
-    render() {
 
+    handleReloadTransactions = () => {
+        this.latestTransactions.updateTransactionData();
+    }
+
+    render() {
         return (
             <Grid container columns={2}>
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Segment>
-                            <NewPaymentContainer />
+                            <NewPaymentContainer token={this.props.token} handleReloadTransactions={this.handleReloadTransactions} />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment>
-                            <LatestTransactionListContainer />
+                            <LatestTransactionListContainer token={this.props.token} ref={(latestTransactions) => { this.latestTransactions = latestTransactions; }} />
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>
