@@ -68,7 +68,7 @@ class AllTransactions extends React.Component {
   }
 
   formatDate(dateString) {
-    return moment(dateString).format("DD.MM.YYYY hh:mm");
+    return moment(dateString).format("DD.MM.YYYY HH:mm");
   }
   
   render() {
