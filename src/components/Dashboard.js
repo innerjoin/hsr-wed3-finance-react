@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
 
     render() {
         return (
-            <Grid container columns={2}>
+            <Grid stackable container columns={2}>
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Segment>
