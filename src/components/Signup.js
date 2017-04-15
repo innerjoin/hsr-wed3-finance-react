@@ -5,16 +5,31 @@ import { Redirect } from 'react-router-dom'
 
 import { signup } from '../api'
 import MyInput from './MyInput'
-import { Button, Form, Segment, Grid, Label, Input, Message } from 'semantic-ui-react'
+import { Button, Form, Segment, Grid, Label, Message } from 'semantic-ui-react'
 
+export type Props = {
+  /* Callback to submit an authentication request to the server */
+  authenticate: (login: string, password: string, callback: (error: ?Error) => void) => void,
+  /* We need to know what page the user tried to access so we can 
+     redirect after logging in */
+  location: {
+    state?: {
+
+      from: string,
+    }
+  }
+}
 
 class Signup extends React.Component {
+
+  props: Props
     
   state: {
     login: string,
     firstname: string,
     lastname: string,
     password: string,
+    passwordConfirmation: string,
     error: string,
     redirectToReferrer: boolean,
   }
@@ -24,13 +39,14 @@ class Signup extends React.Component {
     firstname: "",
     lastname: "",
     password: "",
+    passwordConfirmation: "",
     error: null,
     redirectToReferrer: false,
   }
 
   handleLoginChanged = (event: Event) => {
     if(event.target instanceof HTMLInputElement) {
-      this.setState({login: event.target.value})
+      this.setState({login: event.target.value});
     }
   }
   
@@ -51,16 +67,51 @@ class Signup extends React.Component {
       this.setState({password: event.target.value})
     }
   }
+  
+  handlePasswordConfirmationChanged = (event: Event) => {
+    if(event.target instanceof HTMLInputElement) {
+      this.setState({passwordConfirmation: event.target.value})
+    }
+  }
+
+  unlessErrors = (callback: any) => {
+    var hasErrors=false;
+    [
+      this.refs.login,
+      this.refs.firstname,
+      this.refs.lastname,
+      this.refs.password,
+      this.refs.pwconf
+    ].forEach(function(field) {
+      if(!field.runValidations(field.props.value)){
+        hasErrors=true;
+      }
+    });
+    if(hasErrors !== true){
+      callback();
+    }
+  }
 
   handleSubmit = (event: Event) => {
     event.preventDefault()
+
     const { login, firstname, lastname, password } = this.state
-    signup(login, firstname, lastname, password).then(result => {
-      console.log("Signup result ", result)
-      this.setState({redirectToReferrer: true, error: null})
-    }).catch(error => 
-      this.setState({error})
-    )
+    console.dir(this);
+    this.unlessErrors(() => {
+      signup(login, firstname, lastname, password).then(result => {
+        console.dir(this);
+        this.props.authenticate(login, password, (error) => {
+          if(error) {
+            this.setState({error})
+          } else {
+            this.setState({redirectToReferrer: true, error: null})
+          }
+        })
+      }).catch(error => {
+        console.dir(error);
+        this.setState({error})
+      })
+    });
   }
 
   render() {    
@@ -68,8 +119,17 @@ class Signup extends React.Component {
     
     if (redirectToReferrer) {
       return (
-        <Redirect to='/login'/>
+        <Redirect to='/dashboard'/>
       )
+    }
+
+    this.loginValidations={
+      presence: true,
+      minLength: 3
+    }
+    this.passwordConfirmationValidations={
+      presence: true,
+      equalTo: this.refs.password
     }
     
     return (
@@ -79,13 +139,15 @@ class Signup extends React.Component {
             <Label as='a' ribbon>Bank of Rapperswil</Label>
             <Form>
               <h2>Registrieren</h2>
-              <MyInput fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />
+              <MyInput fluid onChange={this.handleLoginChanged} validations={this.loginValidations} label='Login' value={this.state.login} ref="login" />
               <br />
-              <MyInput fluid onChange={this.handleFirstNameChanged} label='Given Name' value={this.state.firstname} />
+              <MyInput fluid onChange={this.handleFirstNameChanged} validations={this.loginValidations} label='Given Name' value={this.state.firstname} ref="firstname" />
               <br />
-              <MyInput fluid onChange={this.handleLastNameChanged} label='Family Name' value={this.state.lastname} />
+              <MyInput fluid onChange={this.handleLastNameChanged} validations={this.loginValidations} label='Family Name' value={this.state.lastname} ref="lastname" />
               <br />
-              <MyInput fluid onChange={this.handlePasswordChanged} label='Password' type="password" value={this.state.password} />
+              <MyInput fluid onChange={this.handlePasswordChanged} validations={this.loginValidations} label='Password' type="password" value={this.state.password} ref="password" />
+              <br />
+              <MyInput fluid onChange={this.handlePasswordConfirmationChanged} validations={this.passwordConfirmationValidations} label='Password Confirmation' type="password" ref="pwconf"  value={this.state.passwordConfirmation} />
               <br />
               <Button className="primary fluid" onClick={this.handleSubmit}>Create Account</Button>
             </Form>

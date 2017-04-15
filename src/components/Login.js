@@ -2,7 +2,8 @@
 
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { Button, Form, Input, Segment, Grid, Label, Message } from 'semantic-ui-react'
+import { Button, Form, Segment, Grid, Label, Message } from 'semantic-ui-react'
+import MyInput from './MyInput'
 
 export type Props = {
   /* Callback to submit an authentication request to the server */
@@ -47,15 +48,32 @@ class Login extends React.Component {
     }
   }
 
+  unlessErrors = (callback: any) => {
+    var hasErrors=false;
+    [
+      this.refs.login,
+      this.refs.password
+    ].forEach(function(field) {
+      if(!field.runValidations(field.props.value)){
+        hasErrors=true;
+      }
+    });
+    if(hasErrors !== true){
+      callback();
+    }
+  }
+
   handleSubmit = (event: Event) => {
     event.preventDefault()
     const { login, password } = this.state
-    this.props.authenticate(login, password, (error) => {
-      if(error) {
-        this.setState({error})
-      } else {
-        this.setState({redirectToReferrer: true, error: null})
-      }
+    this.unlessErrors(() => {
+      this.props.authenticate(login, password, (error) => {
+        if(error) {
+          this.setState({error})
+        } else {
+          this.setState({redirectToReferrer: true, error: null})
+        }
+      })
     })
   }
 
@@ -68,6 +86,11 @@ class Login extends React.Component {
         <Redirect to={from}/>
       )
     }
+
+    this.loginValidations={
+      presence: true,
+      minLength: 3
+    }
         
     return (
       <Grid container>
@@ -76,9 +99,9 @@ class Login extends React.Component {
             <Label as='a' ribbon>Bank of Rapperswil</Label>
             <Form>
               <h2>Login</h2>
-              <Input fluid onChange={this.handleLoginChanged} label='Login' value={this.state.login} />
+              <MyInput fluid onChange={this.handleLoginChanged} ref="login" validations={this.loginValidations} label='Login' value={this.state.login} />
               <br/>
-              <Input fluid onChange={this.handlePasswordChanged} label='Password' type="password" value={this.state.password} />
+              <MyInput fluid onChange={this.handlePasswordChanged} ref="password" validations={this.loginValidations} label='Password' type="password" value={this.state.password} />
               <br/>
               <Button className="primary fluid" onClick={this.handleSubmit}>Log-in</Button>
             </Form>
