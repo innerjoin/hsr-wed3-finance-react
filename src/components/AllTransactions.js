@@ -6,6 +6,7 @@ import { Grid, Segment, Select } from 'semantic-ui-react'
 import TransactionTable from './TransactionTable';
 import type { User } from '../api';
 import { getTransactions } from '../api';
+import moment from 'moment';
 
 export type Props = {
   token: string,
@@ -35,26 +36,21 @@ class AllTransactions extends React.Component {
     })
   }
 
-  updateTransactionData() {
-    // FIXIT: hacky stuff
-    setTimeout(() => {
-      getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
-        (data) => {
-          this.setState(state => ({transactions: data.result}));
-          this.setState(state => ({total: data.query.resultcount}));
-        }
-      );
-    }, 200);
+  updateTransactionData(cb) {
+    getTransactions(this.props.token, this.state.fromDate, this.state.toDate, this.state.count, this.state.skip).then(
+      (data) => {
+        this.setState(state => ({transactions: data.result, total: data.query.resultcount}));
+      }
+    );
   }
 
   updateDateRange(selectedYear, selectedMonth) {
-    this.setState(state => ({fromDate: new Date(selectedYear, selectedMonth, 1).toJSON()}));
-    if((selectedMonth + 1) % 12 !== 0) {
-      this.setState(state => ({toDate: new Date(selectedYear, selectedMonth + 1, 1).toJSON()}));
-    } else {
-      this.setState(state => ({toDate: new Date(selectedYear + 1, 0, 1).toJSON()}));
-    }
-    this.updateTransactionData();
+    this.setState(state => ({
+      fromDate: new Date(selectedYear, selectedMonth, 1).toJSON(),
+      toDate: (selectedMonth + 1) % 12 !== 0 
+              ? new Date(selectedYear, selectedMonth + 1, 1).toJSON() 
+              : new Date(selectedYear + 1, 0, 1).toJSON()
+    }), () => this.updateTransactionData());
   }
 
   componentDidMount() {
@@ -70,6 +66,10 @@ class AllTransactions extends React.Component {
     this.setState(state => ({year: year}));
     this.updateDateRange(year, this.state.month);
   }
+
+  formatDate(dateString) {
+    return moment(dateString).format("DD.MM.YYYY HH:mm");
+  }
   
   render() {
     return (
@@ -79,7 +79,7 @@ class AllTransactions extends React.Component {
             <Select value={this.state.month} onChange={(e, data) => this.updateMonth(data.value)} placeholder='Choose Month' options={this.state.months} />
             <Select defaultValue={this.state.year} onChange={(e, data) => this.updateYear(data.value)} placeholder='Choose Year' options={this.state.years} />
 
-            <TransactionTable transactions={this.state.transactions} />
+            <TransactionTable formatDate={this.formatDate} transactions={this.state.transactions} />
           </Segment>
         </Grid.Column>
       </Grid>
