@@ -2,8 +2,8 @@
 
 import React from 'react'
 import {Grid, Segment} from 'semantic-ui-react'
-import NewPaymentContainer from '../containers/NewPaymentContainer'
-import LatestTransactionListContainer from '../containers/LatestTransactionListContainer'
+import NewPaymentContainer from './NewPaymentContainer'
+import LatestTransactionListContainer from './LatestTransactionListContainer'
 
 /*
  Use the api functions to call the API server. For example, the transactions

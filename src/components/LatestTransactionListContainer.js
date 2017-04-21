@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
-import TransactionTable from '../components/TransactionTable';
+import TransactionTable from './TransactionTable';
 import { getTransactions } from '../api';
 import moment from 'moment';
 
