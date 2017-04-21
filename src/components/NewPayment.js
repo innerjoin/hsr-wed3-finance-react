@@ -10,7 +10,7 @@ export type Props = {
     handleReloadTransactions: Function,
 }
 
-class NewPaymentContainer extends React.Component {
+class NewPayment extends React.Component {
 
     props: Props;
 
@@ -165,4 +165,4 @@ class NewPaymentContainer extends React.Component {
     }
 }
 
-export default NewPaymentContainer
+export default NewPayment

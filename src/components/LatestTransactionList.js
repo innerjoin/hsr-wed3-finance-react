@@ -11,7 +11,7 @@ export type Props = {
     token: String,
 }
 
-class LatestTransactionListContainer extends React.Component {
+class LatestTransactionList extends React.Component {
 
     props: Props
 
@@ -49,4 +49,4 @@ class LatestTransactionListContainer extends React.Component {
     }
 }
 
-export default LatestTransactionListContainer
+export default LatestTransactionList
