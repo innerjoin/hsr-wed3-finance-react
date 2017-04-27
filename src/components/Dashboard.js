@@ -2,8 +2,8 @@
 
 import React from 'react'
 import {Grid, Segment} from 'semantic-ui-react'
-import NewPaymentContainer from '../containers/NewPaymentContainer'
-import LatestTransactionListContainer from '../containers/LatestTransactionListContainer'
+import NewPayment from './NewPayment'
+import LatestTransactionList from './LatestTransactionList'
 
 /*
  Use the api functions to call the API server. For example, the transactions
@@ -36,12 +36,12 @@ class Dashboard extends React.Component {
                 <Grid.Row>
                     <Grid.Column width={6}>
                         <Segment>
-                            <NewPaymentContainer token={this.props.token} handleReloadTransactions={this.handleReloadTransactions} />
+                            <NewPayment token={this.props.token} handleReloadTransactions={this.handleReloadTransactions} />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={10}>
                         <Segment>
-                            <LatestTransactionListContainer token={this.props.token} ref={(latestTransactions) => { this.latestTransactions = latestTransactions; }} />
+                            <LatestTransactionList token={this.props.token} ref={(latestTransactions) => { this.latestTransactions = latestTransactions; }} />
                         </Segment>
                     </Grid.Column>
                 </Grid.Row>

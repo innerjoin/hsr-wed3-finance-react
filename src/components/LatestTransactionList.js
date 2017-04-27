@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
-import TransactionTable from '../components/TransactionTable';
+import TransactionTable from './TransactionTable';
 import { getTransactions } from '../api';
 import moment from 'moment';
 
@@ -11,7 +11,7 @@ export type Props = {
     token: String,
 }
 
-class LatestTransactionListContainer extends React.Component {
+class LatestTransactionList extends React.Component {
 
     props: Props
 
@@ -49,4 +49,4 @@ class LatestTransactionListContainer extends React.Component {
     }
 }
 
-export default LatestTransactionListContainer
+export default LatestTransactionList
